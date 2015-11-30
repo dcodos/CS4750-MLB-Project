@@ -104,6 +104,7 @@ if ($conn->connect_errno > 0) {
                     $result = $conn->query(getInfo($id));
                     while ($row = $result->fetch_assoc()) :
                         ?>
+                    <tr>
                             <td><?php echo $row['year'] ?></td>
                             <td><?php echo $row['num'] ?></td>
                             <td><?php echo $row['position'] ?></td>
@@ -126,15 +127,18 @@ if ($conn->connect_errno > 0) {
                         <th>OPS</th>
                     </tr>
                     <?php
-                    /* $result = $conn->query(getAvg($year));
+                    $result = $conn->query(getFraction($id));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
-                            <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
-
+                    <tr>
+                            <td><?php echo $row['year'] ?></td>
+                            <td><?php echo $row['average'] ?></td>
+                            <td><?php echo $row['obp'] ?></td>
+                            <td><?php echo $row['slg'] ?></td>
+                            <td><?php echo $row['ops'] ?></td>
                         </tr>
                         <?php
-                    endwhile; */
+                    endwhile;
                     ?>
                 </table>
             </div> 
@@ -158,15 +162,24 @@ if ($conn->connect_errno > 0) {
                         <th>CS</th>
                     </tr>
                     <?php
-                    /* $result = $conn->query(getAvg($year));
+                    $result = $conn->query(getStats($id));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
-                            <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
-
+                        <tr>
+                            <td><?php echo $row['year'] ?></td>
+                            <td><?php echo $row['hits'] ?></td>
+                            <td><?php echo $row['doubles'] ?></td>
+                            <td><?php echo $row['triples'] ?></td>
+                            <td><?php echo $row['hr'] ?></td>
+                            <td><?php echo $row['runs'] ?></td>
+                            <td><?php echo $row['rbi'] ?></td>
+                            <td><?php echo $row['bb'] ?></td>
+                            <td><?php echo $row['hbp'] ?></td>
+                            <td><?php echo $row['sb'] ?></td>
+                            <td><?php echo $row['cs'] ?></td>
                         </tr>
                         <?php
-                    endwhile; */
+                    endwhile; 
                     ?>
                 </table>
             </div>
