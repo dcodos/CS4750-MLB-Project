@@ -53,3 +53,21 @@ function searchPlayer($query) {
             GROUP BY p.player_id, p.first_name, p.last_name";
     return $search_query;
 }
+
+function getPlayer($id) {
+    $player_query = "SELECT * from players p
+        WHERE p.player_id = $id
+        LIMIT 1";
+    return $player_query;
+}
+
+function getInfo($id) {
+    $info_query = "SELECT pt.year, pt.num, pt.position, t.abbrev, s.salary
+        FROM player_team pt 
+        INNER JOIN players p ON p.player_id = pt.player_id
+        LEFT OUTER JOIN salaries s ON s.player_id = pt.player_id AND s.year = pt.year
+        INNER JOIN teams t on pt.team_id = t.team_id
+        WHERE p.player_id = $id
+        GROUP BY p.player_id, pt.year";
+    return $info_query;
+}
