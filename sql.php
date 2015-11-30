@@ -73,11 +73,11 @@ function getInfo($id) {
 }
 
 function getFraction($id) {
-    $fraction_query = "SELECT pt.year, hits / ab AS average, (hits+bb+hbp)/(ab+bb+hbp+sf) AS obp, (hits+doubles+2*triples+3*hr)/ab AS slg, ops
+    $fraction_query = "SELECT pt.year, hits / ab AS average, (hits+bb+hbp)/(ab+bb+hbp+COALESCE(sf,0)) AS obp, (hits+doubles+2*triples+3*hr)/ab AS slg, ops
         FROM player_team pt
         INNER JOIN batting_stats bs on pt.player_id = bs.player_id and pt.year = bs.year
         INNER JOIN ops o on pt.player_id = o.player_id and pt.year = o.year
-        INNER JOIN sac_flys s on pt.player_id = s.batter_id and pt.year = s.year
+        LEFT OUTER JOIN sac_flys s on pt.player_id = s.batter_id and pt.year = s.year
         WHERE pt.player_id = $id
         GROUP BY pt.player_id, pt.year";
     return $fraction_query;
