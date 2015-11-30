@@ -59,6 +59,7 @@ if ($conn->connect_errno > 0) {
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
+                            <input type="hidden" class="form-control" value="<?php echo $id; ?>" name="id">
                             <input type="text" class="form-control" placeholder="Search" name="q">
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
