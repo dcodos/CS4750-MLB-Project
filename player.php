@@ -121,9 +121,9 @@ if ($conn->connect_errno > 0) {
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>
-                        <th>Batting Average</th>
-                        <th>On Base</th>
-                        <th>Slugging</th>
+                        <th>AVG</th>
+                        <th>OBP</th>
+                        <th>SLG</th>
                         <th>OPS</th>
                     </tr>
                     <?php
