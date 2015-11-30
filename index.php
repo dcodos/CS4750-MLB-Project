@@ -39,7 +39,7 @@ and open the template in the editor.
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Batting Stats<span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Pitching Stats</a></li>
+                        <li><a href="pitchers.php">Pitching Stats</a></li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
