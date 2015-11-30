@@ -44,12 +44,12 @@ function getOps($year) {
 }
 
 function searchPlayer($query) {
-    $search_query = "SELECT p.player_id, p.first_name, p.last_name, t.abbrev AS 'team'
+    $search_query = "SELECT p.player_id, p.first_name, p.last_name, t.abbrev AS 'team', pt.position
         FROM players p
         INNER JOIN player_team pt on pt.player_id = p.player_id
         INNER JOIN teams t ON t.team_id = pt.team_id
-        WHERE p.first_name LIKE '%" . $query . "%'
-            OR p.last_name LIKE '%" . $query . "%'
+        WHERE p.first_name LIKE '%$query%'
+            OR p.last_name LIKE '%$query%'
             GROUP BY p.player_id, p.first_name, p.last_name";
     return $search_query;
 }

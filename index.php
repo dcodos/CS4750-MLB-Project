@@ -80,9 +80,12 @@ and open the template in the editor.
         <?php 
         while ($row = $result->fetch_assoc()):
             ?>
+            <?php if ($row['position'] == 'P') : ?>
+            <li class="list-group-item clickable-row" data-href="pitcher.php?id=<?php echo $row['player_id']; ?>"><?php echo $row['first_name'] . " " . $row['last_name']; ?></li>
+            <?php else: ?>
             <li class="list-group-item clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>"><?php echo $row['first_name'] . " " . $row['last_name']; ?></li>
             
-            <?php endwhile; ?>
+            <?php endif; endwhile; ?>
         </ul>
         
         <?php endif; endif; ?>

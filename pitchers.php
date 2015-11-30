@@ -4,18 +4,15 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-
-<?php
-$conn = new mysqli('stardock.cs.virginia.edu', 'cs4750rml5qe', 'guest', 'cs4750rml5qe');
-if ($conn->connect_errno > 0) {
-    die('Unable to connect to database [' . $db->connect_error . ']');
-}
-?>
-
-
+        <?php
+        $conn = new mysqli('stardock.cs.virginia.edu', 'cs4750rml5qe', 'guest', 'cs4750rml5qe');
+        if ($conn->connect_errno > 0) {
+            die('Unable to connect to database [' . $db->connect_error . ']');
+        }
+        ?>
 <html>
     <?php
-    include_once 'sql.php';
+            include_once 'sql.php';
     ?>
     <head>
         <!-- Latest compiled and minified CSS -->
@@ -23,21 +20,8 @@ if ($conn->connect_errno > 0) {
         <meta charset="UTF-8">
         <title></title>
     </head>
-
-
     <body style='max-width: 1200px;margin-left: auto;margin-right: auto'>
 
-        <?php
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $result = $conn->query(getPlayer($id));
-            $row = $result->fetch_assoc();
-            $first_name = $row["first_name"];
-            $last_name = $row["last_name"];
-            $throws = $row["throws"];
-            $bats = $row["bats"];
-        }
-        ?>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -48,26 +32,46 @@ if ($conn->connect_errno > 0) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><?php echo $first_name . " " . $last_name; ?></a>
+                    <a class="navbar-brand" href="#">CS 4750 Baseball Database</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.php">Batting Stats<span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="#">Batting Stats<span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Pitching Stats</a></li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
-                            <input type="hidden" class="form-control" value="<?php echo $id; ?>" name="id">
                             <input type="text" class="form-control" placeholder="Search" name="q">
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Select Year <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <?php
+                                $result = $conn->query($year_query);
+                                while ($row = $result->fetch_assoc()) :
+                                    $year = $row['year'];
+                                    ?>
+                                    <li><a href=index.php?year="<?php echo $row['year']; ?>"><?php echo $row['year']; ?></a></li>
+
+                                    <?php
+                                endwhile;
+                                if (isset($_GET['year'])) {
+                                    $year = $_GET['year'];
+                                }
+                                
+                                ?>
+                            </ul>
+                        </li>
+                    </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-        
+
         <?php 
         if (isset($_GET['q'])) : 
             if (strlen($_GET['q']) > 2):
@@ -88,108 +92,51 @@ if ($conn->connect_errno > 0) {
         <?php endif; endif; ?>
         <br />
 
-        <?php
-        echo "Bats: " . $bats . " ";
-        echo "Throws: " . $throws;
-        ?>
-
+        <h1>Batting Leaders</h1>
+        <h4>Click any player to view more information</h4>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <table class="table table-striped table-hover">
                     <tr>
-                        <th>Year</th>
-                        <th>Number</th>
-                        <th>Position</th>
+                        <th>Player Name</th>
                         <th>Team</th>
-                        <th>Salary</th>
+                        <th>AVG</th>
                     </tr>
                     <?php
-                    $result = $conn->query(getInfo($id));
+                    $result = $conn->query(getAvg($year));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                    <tr>
-                            <td><?php echo $row['year'] ?></td>
-                            <td><?php echo $row['num'] ?></td>
-                            <td><?php echo $row['position'] ?></td>
-                            <td><?php echo strtoupper($row['abbrev']) ?></td>
-                            <td><?php echo $row['salary'] ?></td>
+                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
+                            <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
+                            <td><?php echo $row['team']; ?></td>
+                            <td><?php echo $row['avg']; ?></td>
                         </tr>
                         <?php
                     endwhile;
                     ?>
                 </table>
             </div>
-
-            <div class="col-md-4">
-                <table class="table table-striped table-hover">
+            <div class="col-md-6">
+                <table class="table table-striped">
                     <tr>
-                        <th>Year</th>
-                        <th>AVG</th>
-                        <th>OBP</th>
-                        <th>SLG</th>
+                        <th>Player Name</th>
+                        <th>Team</th>
                         <th>OPS</th>
                     </tr>
                     <?php
-                    $result = $conn->query(getFraction($id));
+                    $result = $conn->query(getOps($year));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                    <tr>
-                            <td><?php echo $row['year'] ?></td>
-                            <td><?php echo $row['average'] ?></td>
-                            <td><?php echo $row['obp'] ?></td>
-                            <td><?php echo $row['slg'] ?></td>
-                            <td><?php echo $row['ops'] ?></td>
+                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
+                            <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
+                            <td><?php echo $row['team']; ?></td>
+                            <td><?php echo $row['ops']; ?></td>
                         </tr>
                         <?php
                     endwhile;
                     ?>
-                </table>
-            </div> 
-        </div>
-
-        
-        <div class="row">
-            <div class="col-md-8">
-                <table class="table table-striped table-hover">
-                    <tr>
-                        <th>Year</th>
-                        <th>Hits</th>
-                        <th>Doubles</th>
-                        <th>Triples</th>
-                        <th>HR</th>
-                        <th>Runs</th>
-                        <th>RBI</th>
-                        <th>BB</th>
-                        <th>HBP</th>
-                        <th>SB</th>
-                        <th>CS</th>
-                    </tr>
-                    <?php
-                    $result = $conn->query(getStats($id));
-                    while ($row = $result->fetch_assoc()) :
-                        ?>
-                        <tr>
-                            <td><?php echo $row['year'] ?></td>
-                            <td><?php echo $row['hits'] ?></td>
-                            <td><?php echo $row['doubles'] ?></td>
-                            <td><?php echo $row['triples'] ?></td>
-                            <td><?php echo $row['hr'] ?></td>
-                            <td><?php echo $row['runs'] ?></td>
-                            <td><?php echo $row['rbi'] ?></td>
-                            <td><?php echo $row['bb'] ?></td>
-                            <td><?php echo $row['hbp'] ?></td>
-                            <td><?php echo $row['sb'] ?></td>
-                            <td><?php echo $row['cs'] ?></td>
-                        </tr>
-                        <?php
-                    endwhile; 
-                    ?>
-                </table>
             </div>
         </div>
-
-
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="js/script.js"></script>
         <!-- Latest compiled and minified JavaScript -->
