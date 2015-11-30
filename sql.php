@@ -92,3 +92,21 @@ function getStats($id) {
     return $stats_query;
 
 }
+
+function getPitchFrac($id) {
+    $pitchFrac_query = "SELECT pt.year, era, whip, 9*k/ip as k9, 9*bb/ip as bb9
+        FROM player_team pt
+        INNER JOIN pitching_stats ps on pt.player_id = ps.player_id and pt.year = ps.year
+        WHERE pt.player_id = $id
+        GROUP BY pt.player_id, pt.year";
+    return $pitchFrac_query;
+}
+
+function getPitchStats($id) {
+    $pitchStats_query = "SELECT *
+        FROM player_team pt
+        INNER JOIN pitching_stats ps on pt.player_id = ps.player_id and pt.year = ps.year
+        WHERE pt.player_id = $id
+        GROUP BY pt.player_id, pt.year";
+    return $pitchStats_query;
+}
