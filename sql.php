@@ -14,11 +14,10 @@ function getAvg($year) {
     t.abbrev as 'team' 
     FROM batting_stats bs
     INNER JOIN players p on p.player_id = bs.player_id
-    INNER JOIN player_team pt on pt.player_id = p.player_id
+    INNER JOIN player_team pt on pt.player_id = bs.player_id and pt.year = bs.year
     INNER JOIN teams t on t.team_id = pt.team_id
     WHERE bs.year = $year
-    AND pt.year = $year
-    AND bs.ab > 40
+    AND bs.ab > 300
     AND t.abbrev != 'nas'
     AND t.abbrev != 'aas'
     ORDER BY avg DESC
@@ -26,21 +25,53 @@ function getAvg($year) {
     return $avg_query;
 }
 
-function getOps($year) {
-    $ops_query = "SELECT p.player_id, p.first_name, p.last_name, t.abbrev AS 'team', o.ops FROM ops o
-        INNER JOIN batting_stats bs ON o.player_id = bs.player_id
-        INNER JOIN players p ON o.player_id = p.player_id
-        INNER JOIN player_team pt ON pt.player_id = p.player_id
-        INNER JOIN teams t ON t.team_id = pt.team_id
-        WHERE o.year = bs.year
-        AND pt.year = o.year
-        AND o.year = $year
+function getEra($year) {
+    $era_query = "SELECT p.player_id, p.first_name,
+        p.last_name,
+        ps.er * 9 / ps.ip as era,
+        t.abbrev as 'team'
+        FROM pitching_stats ps
+        INNER JOIN players p on p.player_id = ps.player_id
+        INNER JOIN player_team pt on pt.player_id = ps.player_id and pt.year = ps.year
+        INNER JOIN teams t on t.team_id = pt.team_id
+        WHERE ps.year = $year
+        AND ps.ip > 100
         AND t.abbrev != 'nas'
         AND t.abbrev != 'aas'
-        AND bs.ab > 40
+        ORDER BY era ASC
+        LIMIT 10";
+    return $era_query;
+        
+}
+
+function getOps($year) {
+    $ops_query = "SELECT p.player_id, p.first_name, p.last_name, t.abbrev AS 'team', o.ops FROM ops o
+        INNER JOIN batting_stats bs ON o.player_id = bs.player_id AND bs.year = o.year
+        INNER JOIN players p ON o.player_id = p.player_id
+        INNER JOIN player_team pt ON pt.player_id = o.player_id AND pt.year = o.year
+        INNER JOIN teams t ON t.team_id = pt.team_id
+        WHERE o.year = $year
+        AND t.abbrev != 'nas'
+        AND t.abbrev != 'aas'
+        AND bs.ab > 300
         ORDER BY ops DESC
         LIMIT 10";
     return $ops_query;
+}
+
+function getRecord($year) {
+    $rec_query = "SELECT p.player_id, p.first_name, p.last_name, t.abbrev AS team, ps.wins, ps.losses
+        FROM pitching_stats ps
+        INNER JOIN players p on p.player_id = ps.player_id
+        INNER JOIN player_team pt on pt.player_id = ps.player_id AND pt.year = ps.year
+        INNER JOIN teams t on pt.team_id = t.team_id
+        WHERE ps.year = $year
+        AND ps.ip > 100
+        AND t.abbrev != 'nas'
+        AND t.abbrev != 'aas'
+        ORDER BY wins DESC
+        LIMIT 10";
+    return $rec_query;
 }
 
 function searchPlayer($query) {

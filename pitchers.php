@@ -38,8 +38,8 @@ and open the template in the editor.
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Batting Stats<span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Pitching Stats</a></li>
+                        <li><a href="index.php">Batting Stats<span class="sr-only">(current)</span></a></li>
+                        <li class="active"><a href="#">Pitching Stats</a></li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
@@ -56,7 +56,7 @@ and open the template in the editor.
                                 while ($row = $result->fetch_assoc()) :
                                     $year = $row['year'];
                                     ?>
-                                    <li><a href=index.php?year="<?php echo $row['year']; ?>"><?php echo $row['year']; ?></a></li>
+                                    <li><a href=pitchers.php?year="<?php echo $row['year']; ?>"><?php echo $row['year']; ?></a></li>
 
                                     <?php
                                 endwhile;
@@ -100,16 +100,16 @@ and open the template in the editor.
                     <tr>
                         <th>Player Name</th>
                         <th>Team</th>
-                        <th>AVG</th>
+                        <th>ERA</th>
                     </tr>
                     <?php
-                    $result = $conn->query(getAvg($year));
+                    $result = $conn->query(getEra($year));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
+                        <tr class="clickable-row" data-href="pitcher.php?id=<?php echo $row['player_id']; ?>">
                             <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
                             <td><?php echo $row['team']; ?></td>
-                            <td><?php echo $row['avg']; ?></td>
+                            <td><?php echo $row['era']; ?></td>
                         </tr>
                         <?php
                     endwhile;
@@ -121,16 +121,18 @@ and open the template in the editor.
                     <tr>
                         <th>Player Name</th>
                         <th>Team</th>
-                        <th>OPS</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
                     </tr>
                     <?php
-                    $result = $conn->query(getOps($year));
+                    $result = $conn->query(getRecord($year));
                     while ($row = $result->fetch_assoc()) :
                         ?>
-                        <tr class="clickable-row" data-href="player.php?id=<?php echo $row['player_id']; ?>">
+                        <tr class="clickable-row" data-href="pitcher.php?id=<?php echo $row['player_id']; ?>">
                             <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
                             <td><?php echo $row['team']; ?></td>
-                            <td><?php echo $row['ops']; ?></td>
+                            <td><?php echo $row['wins']; ?></td>
+                            <td><?php echo $row['losses']; ?></td>
                         </tr>
                         <?php
                     endwhile;
