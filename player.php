@@ -64,6 +64,11 @@ if ($conn->connect_errno > 0) {
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
+                    
+                    <ul class="nav navbar-nav">
+                        DC.ML
+                    </ul>
+                    
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
@@ -156,8 +161,8 @@ if ($conn->connect_errno > 0) {
                     <tr>
                         <th>Year</th>
                         <th>Hits</th>
-                        <th>Doubles</th>
-                        <th>Triples</th>
+                        <th>2B</th>
+                        <th>3B</th>
                         <th>HR</th>
                         <th>Runs</th>
                         <th>RBI</th>

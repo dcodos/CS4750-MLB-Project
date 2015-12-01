@@ -64,6 +64,11 @@ if ($conn->connect_errno > 0) {
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
+                    
+                    <ul class="nav navbar-nav">
+                        DC.ML
+                    </ul>
+                    
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
