@@ -85,13 +85,16 @@ if ($conn->connect_errno > 0) {
         <?php endif; endif; ?>
         <br />
 
-        <?php
+                                <?php
         echo "Bats: " . $bats . " ";
         echo "Throws: " . $throws;
         ?>
-
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
+                <img class="img-responsive" src="<?php echo "http://mlb.mlb.com/mlb/images/players/head_shot/$id.jpg"?>" />
+            </div>
+            
+            <div class="col-md-5">
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>
@@ -117,7 +120,7 @@ if ($conn->connect_errno > 0) {
                 </table>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>
@@ -143,6 +146,7 @@ if ($conn->connect_errno > 0) {
                 </table>
             </div> 
         </div>
+        <br>
 
         
         <div class="row">
