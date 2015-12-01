@@ -94,7 +94,7 @@ if ($conn->connect_errno > 0) {
         ?>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>
@@ -120,7 +120,7 @@ if ($conn->connect_errno > 0) {
                 </table>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>
@@ -149,7 +149,7 @@ if ($conn->connect_errno > 0) {
 
         
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Year</th>

@@ -92,7 +92,7 @@ and open the template in the editor.
         <?php endif; endif; ?>
         <br />
 
-        <h1>Batting Leaders</h1>
+        <h1>Pitching Leaders</h1>
         <h4>Click any player to view more information</h4>
         <div class="row">
             <div class="col-md-6">

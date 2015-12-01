@@ -81,6 +81,7 @@ function searchPlayer($query) {
         INNER JOIN teams t ON t.team_id = pt.team_id
         WHERE p.first_name LIKE '%$query%'
             OR p.last_name LIKE '%$query%'
+            OR CONCAT(p.first_name, ' ', p.last_name) LIKE '%$query%'
             GROUP BY p.player_id, p.first_name, p.last_name";
     return $search_query;
 }
